@@ -31,7 +31,7 @@ export const PromotedCard=(RestaurantCard)=>{
 
 return (
     <div>
-        <labl>Promoted</labl>
+        <labl className="promoted-label">Promoted</labl>
         <RestaurantCard {...props}/>
     </div>
 )

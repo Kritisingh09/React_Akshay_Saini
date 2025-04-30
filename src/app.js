@@ -6,15 +6,30 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
+import { useState, useEffect } from "react";
+import UserContext from "./utils/userContext";
 //import Groceries from "./components/Groceries";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 const Grocery =lazy(()=>import("./components/Groceries"))
+
 const AppLayout = () => {
+  const [userName,setUserName] =useState("");
+  useEffect(() => {
+    //API mock for authentication
+    const data = {
+      name: "Sita",
+    };
+    setUserName(data.name);
+  }, []);
   return (
-    <div className="app">
+    //important as we are also passing the useState function which is modifying the loggedInuser using API data 
+    <UserContext.Provider value={{ loggedInUser: userName ,setUserName }}>
+       <div className="app">
       <Header />
       <Outlet />
     </div>
+    </UserContext.Provider>
+   
   );
 };
 const appRouter = createBrowserRouter([

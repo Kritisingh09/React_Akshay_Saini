@@ -1,3 +1,5 @@
+/* index.css */ @tailwind base; @tailwind components; @tailwind utilities;
+
 .header{
     display: flex;
     flex-direction: row;
@@ -198,6 +200,7 @@
     flex-direction: row;
     border: 1px solid black;
     margin: 12px;
+    width: 100%;
 
 }
 .card-desc{
@@ -235,4 +238,50 @@ font-weight: 700;
     flex-wrap: nowrap;
     display: flex;
 
+}
+.promoted-label{
+    color:black;
+    font-weight: 700;
+    font-size: larger;
+}
+.accordian{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 2px;
+    box-shadow: #dcd7d7;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
+    text-align: center;
+}
+.accordian-text{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.accordian-click{
+    cursor: pointer;
+}
+.item-list{
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 2px;
+    box-shadow: #dcd7d7;
+    background-color: bisque;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+.item-card{
+    display: flex;
+    flex-direction: row;
+    
 }

@@ -1,16 +1,18 @@
 import RestaurantCard,{ PromotedCard} from "./RestaurantCard";
 import resList from "../utils/mockData";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Shimmer from "./shimmer";
 import { Link } from "react-router-dom";
 import useInternetStatus from "../utils/useInternetStatus";
+import UserContext from "../utils/userContext";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]); //this is how we create state variable,we have to pass the default value
   const [initSearch, setSearchValue] = useState("");
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-  const withPromotedCard = PromotedCard(RestaurantCard);
+  const RestaurantCardPromoted = PromotedCard(RestaurantCard);
   const onlineStatus=useInternetStatus();
+  const {loggedInUser,setUserName}=useContext(UserContext);
   useEffect(() => {
     console.log("hey use effect called");
     fetchData();
@@ -22,10 +24,10 @@ const Body = () => {
     const json = await data.json();
     console.log("json", json);
     setListOfRestaurants(
-      json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredRestaurants(
-      json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   }; 
   // if(listOfRestaurants.length===0){
@@ -73,12 +75,15 @@ if(onlineStatus===false)return (<h1>Looks you're offline ,check your internet co
             Top Rated Restaurants
           </button>
         </div>
+        <div>
+            <input type="text" value={loggedInUser} onChange={(e)=>{setUserName(e.target.value)}}></input>
+        </div>
       </div>
 
       <div className="res-container">
         {filteredRestaurants?.map((restaurants) => (
           <Link key={restaurants?.info?.id} to={"/restaurants/"+ restaurants?.info?.id}>
-            {restaurants?.data?.promoted === true ? <withPromotedCard resData={restaurants}/> :  <RestaurantCard  resData={restaurants}/>}
+            {restaurants?.data?.promoted === true ? <RestaurantCardPromoted resData={restaurants}/> :  <RestaurantCard  resData={restaurants}/>}
          </Link>
         ))}
       </div>

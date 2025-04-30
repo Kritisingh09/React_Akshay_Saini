@@ -1,13 +1,15 @@
 
 import Shimmer from "./shimmer";
-import { CDN_menu ,MENU_API} from "../utils/constants";
+import {useState} from "react";
+import RestaurantCategory from "./RestaurantCategory";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
 const RestaurantMenu = () => {
   //const [resInfo, setresInfo] = useState(null);
   const {resId}=useParams();
+  const [accValue ,setAccordionValue]=useState(null)
   console.log("@@@resId",resId)
-  const resInfo=useRestaurantMenu(resId)
+  const resInfo=useRestaurantMenu(resId);
   // useEffect(() => {
   //   fetchMenu();
   // }, []);
@@ -20,15 +22,25 @@ const RestaurantMenu = () => {
   //   setresInfo(jsonMenu);
   // };
   let itemsCard =
-    resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
-      ?.card?.itemCards;
+    resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
   console.log("itemsCard",  resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards);
+  const categories=itemsCard?.filter((category)=>{
+    return category?.card?.card?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+  })
+  console.log("categories",  categories);
   return resInfo === null ? (
     <Shimmer />
   ) : (
     <div className="menu">
-
-      {itemsCard?.map((option, index) => {
+ {
+  categories.map((category,index)=>{
+    return <RestaurantCategory key={index+1} category={category?.card?.card} 
+    showItems={index === accValue ? true : false}
+    setAccordionValue={()=>setAccordionValue(index)}/>
+  })
+ }
+      {/* before */}
+      {/* {itemsCard?.map((option, index) => {
         return (
           <div className="card" key={option?.card.info.id}>
           <div className="card-section1">
@@ -44,7 +56,7 @@ const RestaurantMenu = () => {
               ></img></div>
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 };
