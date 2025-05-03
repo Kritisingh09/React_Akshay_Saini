@@ -8,8 +8,11 @@ import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
 import { useState, useEffect } from "react";
 import UserContext from "./utils/userContext";
+import {Provider} from "react-redux"
 //import Groceries from "./components/Groceries";
+import CartPage from "./components/cartPage";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import appStore from "./utils/appStore";
 const Grocery =lazy(()=>import("./components/Groceries"))
 
 const AppLayout = () => {
@@ -23,13 +26,14 @@ const AppLayout = () => {
   }, []);
   return (
     //important as we are also passing the useState function which is modifying the loggedInuser using API data 
+    <Provider store={appStore}>
     <UserContext.Provider value={{ loggedInUser: userName ,setUserName }}>
        <div className="app">
       <Header />
       <Outlet />
     </div>
     </UserContext.Provider>
-   
+    </Provider>
   );
 };
 const appRouter = createBrowserRouter([
@@ -41,8 +45,10 @@ const appRouter = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
       { path: "/restaurants/:resId", element: <RestaurantMenu /> },
+      { path: "/cart", element: <CartPage/> },
       { path: "/grocery", 
         element: <Suspense fallback={<h1>Loading.....</h1>}><Grocery/></Suspense>},
+      
     ],
     errorElement: <Error />,
   },

@@ -16,7 +16,7 @@ const RestaurantCategory=({category,showItems,setAccordionValue})=>{
         {category?.itemCards?.map((item,index)=>{
             const uniqueKey = item?.id || item?.card?.info?.id || index; // Fallback to index if no unique key exists
             return  (
-                <div className="item-card">
+                <div className="item-card " key={index}>
                     {showItems && <Itemlist itemList={item} key={uniqueKey}/>}
                 </div>
            )
